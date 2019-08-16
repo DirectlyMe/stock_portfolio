@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchAuth } from "../Redux/actions";
+import { fetchAuth } from "../Redux/robinhoodAuthActions";
 
 const AuthRobinhood = () => {
     const [username, setUsername] = useState<string>("");

@@ -1,4 +1,6 @@
-const serverUrl = "https://localhost:5001/api";
+import { Dispatch } from "redux";
+
+const controllerUrl = "https://localhost:5001/api/robinhoodauth";
 
 export const ROBINHOOD_REQUEST_AUTHENTICATION =
     "ROBINHOOD_REQUEST_AUTHENTICATION";
@@ -19,9 +21,12 @@ export function robinhoodRequestAuth(
 
 export const ROBINHOOD_INVALIDATE_AUTHENTICATION =
     "ROBINHOOD_INVALIDATE_AUTHENTICATION";
-export function robinhoodInvalidAuth() {
+export function robinhoodInvalidAuth(error: any) {
     return {
         type: ROBINHOOD_INVALIDATE_AUTHENTICATION,
+        payload: {
+            error
+        }
     };
 }
 
@@ -37,11 +42,11 @@ export function robinhoodReceiveAuth(authToken: string) {
 }
 
 export function fetchAuth(username: string, password: string, mfa: string) {
-    return async (dispatch: any) => {
+    return async (dispatch: Dispatch) => {
         dispatch(robinhoodRequestAuth(username, password, mfa));
 
         try {
-            const response = await fetch(`${serverUrl}/robinhoodauth`, {
+            const response = await fetch(`${controllerUrl}`, {
                 method: "POST",
                 mode: "cors",
                 body: JSON.stringify({ username, password, mfa }),
@@ -54,7 +59,7 @@ export function fetchAuth(username: string, password: string, mfa: string) {
             console.log(responseBody.access_token);
             dispatch(robinhoodReceiveAuth(responseBody.access_token));
         } catch (err) {
-            console.log(err);
+            dispatch(robinhoodInvalidAuth(err));
         }
     };
 }

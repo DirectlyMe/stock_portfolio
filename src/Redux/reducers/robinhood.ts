@@ -2,12 +2,13 @@ import {
     ROBINHOOD_REQUEST_AUTHENTICATION,
     ROBINHOOD_INVALIDATE_AUTHENTICATION,
     ROBINHOOD_RECEIVE_AUTHENTICATION,
-} from "../actions";
+} from "../robinhoodAuthActions";
 
 const initialAuthState = {
     authToken: "",
     isFetching: false,
     didInvalidate: false,
+    error: "",
     didAuthenticate: false,
     username: "",
     password: "",
@@ -17,11 +18,13 @@ const initialAuthState = {
 export function robinhoodAuth(state = initialAuthState, action: IRobinhoodAuth) {
     switch (action.type) {
         case ROBINHOOD_INVALIDATE_AUTHENTICATION: 
+            const { error } = action.payload;
             return {
                 ...state,
                 didInvalidate: true,
+                error,
                 isFetching: false
-            }
+            };
         case ROBINHOOD_REQUEST_AUTHENTICATION: 
             const { username, password, mfa } = action.payload; 
             return {

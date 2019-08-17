@@ -1,41 +1,60 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, FC } from "react";
+import { connect } from "react-redux";
+import { Input, Button } from "semantic-ui-react";
 import { fetchAuth } from "../Redux/robinhoodAuthActions";
 
-const AuthRobinhood = () => {
+interface IProps {
+    authToken: string;
+    fetchAuth: (
+        username: string,
+        password: string,
+        mfa: string,
+        authToken: string
+    ) => Promise<void>;
+}
+
+const AuthRobinhood: FC<IProps> = ({ authToken, fetchAuth }) => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [mfa, setMfa] = useState<string>("");
 
-    const dispatch = useDispatch();
-
     return (
         <div>
-            <input
+            <Input
                 type="text"
                 value={username}
                 placeholder="username"
                 onChange={e => setUsername(e.target.value)}
             />
-            <input
+            <Input
                 type="text"
                 value={password}
                 placeholder="password"
                 onChange={e => setPassword(e.target.value)}
             />
-            <input
+            <Input
                 type="text"
                 value={mfa}
                 placeholder="mfa"
                 onChange={e => setMfa(e.target.value)}
             />
-            <button
-                onClick={() => dispatch(fetchAuth(username, password, mfa))}
+            <Button
+                onClick={() => fetchAuth(username, password, mfa, authToken)}
             >
                 Authenticate Now!
-            </button>
+            </Button>
         </div>
     );
 };
 
-export default AuthRobinhood;
+const mapStateToProps = (state: any) => {
+    const { authToken } = state.userAuth;
+    return {
+        authToken,
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    { fetchAuth }
+)(AuthRobinhood);

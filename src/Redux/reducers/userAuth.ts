@@ -16,7 +16,7 @@ export function userAuth(state = initialState, action: IUserAuth) {
             const { error } = action.payload;
             return {
                 ...state,
-                errors: error ? error.split(".") : [],
+                errors: error !== undefined ? error.split(".") : [],
                 didInvalidate: true,
                 isFetching: false,
                 didAuthorize: false,

@@ -8,7 +8,7 @@ const initialAuthState = {
     authToken: "",
     isFetching: false,
     didInvalidate: false,
-    error: "",
+    error: [],
     didAuthenticate: false,
     username: "",
     password: "",
@@ -22,7 +22,7 @@ export function robinhoodAuth(state = initialAuthState, action: IRobinhoodAuth) 
             return {
                 ...state,
                 didInvalidate: true,
-                error,
+                error: error ? error.split(",") : [],
                 isFetching: false
             };
         case ROBINHOOD_REQUEST_AUTHENTICATION: 

@@ -25,8 +25,8 @@ export function robinhoodInvalidAuth(error: any) {
     return {
         type: ROBINHOOD_INVALIDATE_AUTHENTICATION,
         payload: {
-            error
-        }
+            error,
+        },
     };
 }
 
@@ -41,7 +41,12 @@ export function robinhoodReceiveAuth(authToken: string) {
     };
 }
 
-export function fetchAuth(username: string, password: string, mfa: string) {
+export function fetchAuth(
+    username: string,
+    password: string,
+    mfa: string,
+    authToken: string
+) {
     return async (dispatch: Dispatch) => {
         dispatch(robinhoodRequestAuth(username, password, mfa));
 
@@ -52,12 +57,15 @@ export function fetchAuth(username: string, password: string, mfa: string) {
                 body: JSON.stringify({ username, password, mfa }),
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
+                    Authorization: `Bearer ${authToken}`,
                 },
             });
 
             const responseBody = await response.json();
-            console.log(responseBody.access_token);
-            dispatch(robinhoodReceiveAuth(responseBody.access_token));
+            
+            !responseBody.hasOwnProperty("error")
+                ? dispatch(robinhoodReceiveAuth(responseBody.access_token))
+                : dispatch(robinhoodInvalidAuth(responseBody.error));
         } catch (err) {
             dispatch(robinhoodInvalidAuth(err));
         }

@@ -1,35 +1,54 @@
-import { USER_RECEIVE_AUTH, USER_INVALIDATE_AUTH, USER_REQUEST_AUTH } from "../userAuthActions";
+import {
+    USER_RECEIVE_AUTH,
+    USER_INVALIDATE_LOGIN,
+    USER_INVALIDATE_REGISTER,
+    USER_REQUEST_AUTH,
+    USER_LOGOUT,
+} from "../userAuthActions";
 
 const initialState = {
     username: "",
     password: "",
     didInvalidate: false,
-    errors: [],
+    registerError: "",
+    loginError: "",
     isFetching: false,
     didAuthorize: false,
-    authToken: ""
+    authToken: "",
 };
 
 export function userAuth(state = initialState, action: IUserAuth) {
     switch (action.type) {
-        case USER_INVALIDATE_AUTH:
-            const { error } = action.payload;
+        case USER_INVALIDATE_LOGIN:
+            const { loginError } = action.payload;
             return {
                 ...state,
-                errors: error !== undefined ? error.split(".") : [],
+                loginError: loginError !== undefined && loginError !== "" ? loginError : "",
                 didInvalidate: true,
                 isFetching: false,
                 didAuthorize: false,
             };
-        case USER_REQUEST_AUTH: 
+        case USER_INVALIDATE_REGISTER:
+            const { registerError } = action.payload;
             return {
                 ...state,
+                registerError: registerError !== undefined && registerError !== "" ? registerError : "",
+                didInvalidate: true,
+                isFetching: false,
+                didAuthorize: false,
+            };
+        case USER_REQUEST_AUTH:
+            const { username, password } = action.payload;
+            return {
+                ...state,
+                username,
+                password,
                 errors: [],
                 didInvalidate: false,
                 isFetching: true,
-                didAuthorize: false
+                didAuthorize: false,
             };
-        case USER_RECEIVE_AUTH: 
+        case USER_RECEIVE_AUTH:
             const { authToken } = action.payload;
             return {
                 ...state,
@@ -37,7 +56,15 @@ export function userAuth(state = initialState, action: IUserAuth) {
                 isFetching: false,
                 didAuthorize: true,
                 authToken,
-                errors: []
+                errors: [],
+            };
+        case USER_LOGOUT:
+            return {
+                ...state,
+                username: "",
+                password: "",
+                didAuthorize: false,
+                authToken: "",
             };
         default:
             return state;

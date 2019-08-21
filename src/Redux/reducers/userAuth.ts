@@ -6,16 +6,25 @@ import {
     USER_LOGOUT,
 } from "../userAuthActions";
 
+let user: IUser | null = null;
+let retrievedUser: string | null = localStorage.getItem("user");
+if (retrievedUser) {
+    user = JSON.parse(retrievedUser);
+    console.log(user);
+}
+
 const initialState = {
-    username: "",
+    username: user ? user.username : "",
     password: "",
     didInvalidate: false,
     registerError: "",
     loginError: "",
     isFetching: false,
-    didAuthorize: false,
-    authToken: "",
+    didAuthorize: user ? true: false,
+    authToken: user ? user.token : "",
 };
+
+console.log(initialState);
 
 export function userAuth(state = initialState, action: IUserAuth) {
     switch (action.type) {

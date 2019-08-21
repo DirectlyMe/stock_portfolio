@@ -1,4 +1,5 @@
 import { Dispatch } from "redux";
+import history from "../helpers/history";
 
 const controllerUrl = "https://localhost:5001/api/users";
 
@@ -45,6 +46,8 @@ export function receiveUserAuth(authToken: string) {
 
 export const USER_LOGOUT = "USER_LOGOUT";
 export function logoutUser() {
+    localStorage.removeItem("user");
+    history.push("/login");
     return {
         type: USER_LOGOUT
     };
@@ -112,6 +115,12 @@ export function loginUser(username: string, password: string) {
 
             const responseBody = await response.json();
             if (responseBody.hasOwnProperty("token")) {
+                const user = {
+                    username,
+                    token: responseBody.token
+                };
+    
+                localStorage.setItem("user", JSON.stringify(user));
                 dispatch(receiveUserAuth(responseBody.token));
             } else if (responseBody.hasOwnProperty("error")) {
                 dispatch(invalidateUserLogin(responseBody.error));

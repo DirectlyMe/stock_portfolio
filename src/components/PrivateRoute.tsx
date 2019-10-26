@@ -1,4 +1,4 @@
-import React, { Component, FC, ElementType } from "react";
+import React, { FC } from "react";
 import { Route, Redirect, RouteProps } from "react-router-dom";
 
 interface IProps extends RouteProps {
@@ -7,9 +7,9 @@ interface IProps extends RouteProps {
 
 const PrivateRoute: FC<IProps> = ({ component: Component, ...rest }) => (
     <Route {...rest} render={props => (
-        localStorage.getItem('user')
+        localStorage.getItem("user")
             ? <Component {...props} />
-            : <Redirect to={{ pathname: '/login' , state: { from: props.location }}} />
+            : <Redirect to={{ pathname: "/login" , state: { from: props.location }}} />
     )} />
 );
 

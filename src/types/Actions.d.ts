@@ -12,10 +12,27 @@ interface IRobinhoodAuth {
     };
 }
 
-interface IRobinhoodAccountsAction {
+interface IAccountTypeAction {
     type: string;
     payload: {
-        
+        error?: string,
+        accountTypes?: string[]
+    }
+}
+
+interface IAccountAction {
+    type: string;
+    payload: {
+        addAccountError?: string;
+        getAccountsError?: string;
+        account?: {
+            type: string;
+            username: string;
+        };
+        accounts?: [{
+            type: string;
+            username: string
+        }]
     };
 }
 

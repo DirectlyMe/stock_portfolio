@@ -1,11 +1,12 @@
 import { combineReducers } from "redux";
-import { robinhoodAuth } from "./robinhood";
 import { userAuth } from "./userAuth";
+import { userAccounts } from "./userAccounts";
+import { accountTypes } from "./accountTypes";
 
 //@ts-ignore
 const reducers = combineReducers({
     //@ts-ignore
-    robinhoodAuth, userAuth
+    userAuth, userAccounts, accountTypes
 });
 
 export default reducers;

@@ -3,7 +3,7 @@ import React, { useState, FC } from "react";
 import { connect } from "react-redux";
 import { css, jsx } from "@emotion/core";
 import { loginUser } from "../Redux/userAuthActions";
-import { Input, Segment, Form, Header, Button, Message } from "semantic-ui-react";
+import { Input, Segment, Form, Header, Message } from "semantic-ui-react";
 
 interface IProps {
     loginError: string;

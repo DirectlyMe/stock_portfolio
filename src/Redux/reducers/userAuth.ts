@@ -10,7 +10,6 @@ let user: IUser | null = null;
 let retrievedUser: string | null = localStorage.getItem("user");
 if (retrievedUser) {
     user = JSON.parse(retrievedUser);
-    console.log(user);
 }
 
 const initialState = {
@@ -23,8 +22,6 @@ const initialState = {
     didAuthorize: user ? true: false,
     authToken: user ? user.token : "",
 };
-
-console.log(initialState);
 
 export function userAuth(state = initialState, action: IUserAuth) {
     switch (action.type) {

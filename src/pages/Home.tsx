@@ -36,9 +36,9 @@ const Home: FC<IProps> = ({
     }, [didAuthorize]);
 
     const accountCards =
-        accounts != undefined &&
+        accounts !== undefined &&
         accounts.length > 0 &&
-        accountTypes != undefined &&
+        accountTypes !== undefined &&
         accountTypes.length > 0
             ? accounts.map(account => {
                   const acctType = accountTypes.find(

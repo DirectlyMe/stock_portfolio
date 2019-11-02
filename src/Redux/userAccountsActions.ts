@@ -77,6 +77,17 @@ export function clearUserAccounts() {
     };
 }
 
+export const UPDATE_ACCOUNT_AUTH = "UPDATE_ACCOUNT_AUTH";
+export function updateAccountAuth(accountId: number, accountAuth: ExternalAccountAuth) {
+    return {
+        type: UPDATE_ACCOUNT_AUTH,
+        payload: {
+            accountId,
+            accountAuth
+        }
+    };
+}
+
 export function addNewAccount(type: string, username:string, password: string, confirmPassword: string) {
     return async (dispatch: Dispatch) => {
         dispatch(addAccountPending());

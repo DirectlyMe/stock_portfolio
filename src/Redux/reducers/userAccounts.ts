@@ -6,10 +6,22 @@ import {
     RECEIVE_USER_ACCOUNTS,
     FETCHING_USER_ACCOUNTS,
     GET_USER_ACCOUNTS_ERROR,
-    USER_CLEAR_ACCOUNTS
+    USER_CLEAR_ACCOUNTS,
+    UPDATE_ACCOUNT_AUTH,
 } from "../userAccountsActions";
+import update from "immutability-helper";
 
-const initialState = {
+interface InitialState {
+    accounts: Account[];
+    fetchingAccounts: boolean;
+    didFetchAccounts: boolean;
+    getAccountsError: string;
+    addingAccount: boolean;
+    didAddAccount: boolean;
+    addAccountError: string;
+}
+
+const initialState: InitialState = {
     accounts: [],
     fetchingAccounts: false,
     didFetchAccounts: false,
@@ -27,7 +39,7 @@ export function userAccounts(state = initialState, action: IAccountAction) {
                 ...state,
                 accounts,
                 fetchingAccounts: false,
-                didFetchAccounts: true
+                didFetchAccounts: true,
             };
         case FETCHING_USER_ACCOUNTS:
             return {
@@ -40,7 +52,10 @@ export function userAccounts(state = initialState, action: IAccountAction) {
                 ...state,
                 fetchingAccounts: false,
                 didFetchAccounts: false,
-                getAccountsError: getAccountsError !== "" && getAccountsError !== undefined ? getAccountsError : ""
+                getAccountsError:
+                    getAccountsError !== "" && getAccountsError !== undefined
+                        ? getAccountsError
+                        : "",
             };
         case USER_ADD_ACCOUNT:
             const { account } = action.payload;
@@ -49,7 +64,7 @@ export function userAccounts(state = initialState, action: IAccountAction) {
                 accounts: [...state.accounts, account],
                 addingAccount: false,
                 didAddAccount: true,
-                addAccountError: ""
+                addAccountError: "",
             };
         case USER_ADD_ACCOUNT_FETCHING:
             return {
@@ -71,7 +86,27 @@ export function userAccounts(state = initialState, action: IAccountAction) {
             return state;
         case USER_CLEAR_ACCOUNTS:
             return {
-                initialState
+                initialState,
+            };
+        case UPDATE_ACCOUNT_AUTH:
+            const { accountId, accountAuth } = action.payload;
+            const accountMatch = state.accounts.find(
+                account => account.accountId == accountId
+            );
+
+            let index = 0;
+            if (accountMatch != undefined) {
+                index = state.accounts.indexOf(accountMatch);
+                console.log(index);
+                console.log(accountMatch);
+                console.log(accountAuth);
+            } else return state;
+
+            return {
+                ...state,
+                accounts: state.accounts.map((account, i) =>
+                    i === index ? { ...account, accountAuth } : account
+                ),
             };
         default:
             return state;

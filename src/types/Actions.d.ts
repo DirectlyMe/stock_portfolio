@@ -31,8 +31,10 @@ interface IAccountAction {
         };
         accounts?: [{
             type: string;
-            username: string
-        }]
+            username: string;
+        }];
+        accountId: number;
+        accountAuth: ExternalAccountAuth;
     };
 }
 

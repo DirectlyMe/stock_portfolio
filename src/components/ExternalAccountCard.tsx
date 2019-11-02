@@ -4,12 +4,14 @@ import { css, jsx } from "@emotion/core";
 import { connect } from "react-redux";
 import { Segment, Image, Header, Input, Button } from "semantic-ui-react";
 import authHeader from "../helpers/authHeader";
+import { updateAccountAuth } from "../Redux/userAccountsActions";
 
 interface IProps {
     account: Account;
     accountType: AccountType;
     fetchingAccounts: boolean;
     didFetchAccounts: boolean;
+    updateAccountAuth: (accountId: number, externalAuth: ExternalAccountAuth) => void;
 }
 
 const ExternalAccountCard: FC<IProps> = ({
@@ -17,6 +19,7 @@ const ExternalAccountCard: FC<IProps> = ({
     accountType,
     fetchingAccounts,
     didFetchAccounts,
+    updateAccountAuth
 }) => {
     const [mfaCode, setMfaCode] = useState<string>("");
     const [requiresMfa, setRequiresMfa] = useState<boolean>(true);
@@ -34,6 +37,7 @@ const ExternalAccountCard: FC<IProps> = ({
             // console.log(responseData);
 
             if (responseData.hasOwnProperty("mfa_required"))
+                //if (responseData.mfa_required) 
                 setRequiresMfa(true);
             };
 
@@ -41,14 +45,24 @@ const ExternalAccountCard: FC<IProps> = ({
     }, []);
 
     async function submitMfa(mfaCode: string) {
-        let response = await fetch(`https://localhost:5001/api/externalacctauth/${account.accountId}/${mfaCode}`, {
-            method: "GET",
-            headers: authHeader,
-        });
+        // let response = await fetch(`https://localhost:5001/api/externalacctauth/${account.accountId}/${mfaCode}`, {
+        //     method: "GET",
+        //     headers: authHeader,
+        // });
 
-        let responseData  = await response.json();
-
-        console.log(responseData);
+        // let responseData  = await response.json();
+        // console.log(responseData);
+        let responseData = {
+            access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJleHAiOjE1NzI3OTgzODYsInRva2VuIjoicFhTMWFsQkh2dXFsZlpaQ1pmdGoyZGRPRElKdWpMIiwidXNlcl9pZCI6IjU2OTEzMTMxLTEzNDYtNDFlNi1iNTg0LWQ3YzYwMmQ0YjI0OCIsImRldmljZV9oYXNoIjoiYzQ3ZTY3ZGU2NGNkMWFhMDk0MTc0MjZhNDk0NWM5YWQiLCJzY29wZSI6ImFjYXRzIGJhbGFuY2VzIGRvY3VtZW50X3VwbG9hZCBlZG9jcyBmdW5kaW5nOmFsbDpyZWFkIGZ1bmRpbmc6YWNoOnJlYWQgZnVuZGluZzphY2g6d3JpdGUgZnVuZGluZzp3aXJlOnJlYWQgZnVuZGluZzp3aXJlOndyaXRlIGludGVybmFsIGludmVzdG1lbnRzIG1hcmdpbiByZWFkIHNpZ251cCB0cmFkZSB3YXRjaGxpc3Qgd2ViX2xpbWl0ZWQiLCJ1c2VyX29yaWdpbiI6IlVTIiwib3B0aW9ucyI6dHJ1ZSwibGV2ZWwyX2FjY2VzcyI6ZmFsc2V9.HttvYGDbXGjCz3uRXD-SfdrU4f8chb4EV4eGojcZroVFyfAmvJIgd_oy5CECcMcrQarcYbefEnDAn862kw4xOhGWI12TLLke0h2v9s8lFrIAwZxvWRu2vshKL7V2q9urd2NCD9RKq_30Ivv-PJVp42pF11zV_nG1NpRagqAiTnQ-KmHdwoU18Pp6l7ZAO7QQO8mybFHRLIisd92bajzdk--gt7VAX5HOpy7wMe5aVZZ3jbp9m8S4Gg-s5vt47r_Xb5Rpy7PY3RBRX0DUcnwezQ0EdwIkj1n1k9ptwtNlvDQTe60f9CHbp1txGB6OBhDOSKa-yZhEss6e54dbp5XvPQ",
+            backup_code: "",
+            expires_in: "129283",
+            mfa_code: "855036",
+            mfa_required: false,
+            refresh_token: "tXdDFsTnMEViYsMeVKWMCYc49gLgq6",
+            scope: "acats balances document_upload edocs funding:all:read funding:ach:read funding:ach:write funding:wire:read funding:wire:write internal investments margin read signup trade watchlist web_limited",
+            token_type: "Bearer"
+        };
+        updateAccountAuth(account.accountId, responseData);
     }
 
     return (
@@ -100,5 +114,5 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 export default connect(
     mapStateToProps,
-    {}
+    { updateAccountAuth }
 )(ExternalAccountCard);

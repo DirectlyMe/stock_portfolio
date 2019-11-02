@@ -70,6 +70,13 @@ export function deleteAccount(accountType: string) {
     };
 }
 
+export const USER_CLEAR_ACCOUNTS = "USER_CLEAR_ACCOUNTS";
+export function clearUserAccounts() {
+    return {
+        type: USER_CLEAR_ACCOUNTS
+    };
+}
+
 export function addNewAccount(type: string, username:string, password: string, confirmPassword: string) {
     return async (dispatch: Dispatch) => {
         dispatch(addAccountPending());

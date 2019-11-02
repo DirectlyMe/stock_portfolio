@@ -30,6 +30,13 @@ export function accountTypesError(error: string) {
     };
 }
 
+export const ACCOUNT_TYPES_CLEAR = "ACCOUNT_TYPES_CLEAR";
+export function clearAccountTypes() {
+    return {
+        type: ACCOUNT_TYPES_CLEAR
+    };
+}
+
 export function getAccountTypes() {
     return async (dispatch: Dispatch) => {
         dispatch(fetchAccountTypes());

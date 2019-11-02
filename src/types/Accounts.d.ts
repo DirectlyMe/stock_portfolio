@@ -1,4 +1,11 @@
 interface Account {
     type: string,
-    name: string,
+    username: string,
+    accountId: number
+}
+
+interface AccountType {
+    typeId: number;
+    name: string;
+    connectionUrl: string;
 }

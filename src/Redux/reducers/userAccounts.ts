@@ -5,7 +5,8 @@ import {
     USER_ADD_ACCOUNT_ERROR,
     RECEIVE_USER_ACCOUNTS,
     FETCHING_USER_ACCOUNTS,
-    GET_USER_ACCOUNTS_ERROR
+    GET_USER_ACCOUNTS_ERROR,
+    USER_CLEAR_ACCOUNTS
 } from "../userAccountsActions";
 
 const initialState = {
@@ -68,6 +69,10 @@ export function userAccounts(state = initialState, action: IAccountAction) {
             };
         case USER_DELETE_ACCOUNT:
             return state;
+        case USER_CLEAR_ACCOUNTS:
+            return {
+                initialState
+            };
         default:
             return state;
     }

@@ -5,14 +5,24 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Button, Icon, Menu, Label, Popup } from "semantic-ui-react";
 import { logoutUser } from "../Redux/userAuthActions";
+import { clearUserAccounts } from "../Redux/userAccountsActions";
+import { clearAccountTypes } from "../Redux/accountTypesActions";
 
 interface IProps {
     username: string;
     didAuthorize: boolean;
     logoutUser: () => void;
+    clearUserAccounts: () => void;
+    clearAccountTypes: () => void;
 }
 
-const Navbar: FC<IProps> = ({ username, didAuthorize, logoutUser }) => {
+const Navbar: FC<IProps> = ({ username, didAuthorize, logoutUser, clearUserAccounts, clearAccountTypes }) => {
+    function initiateLogout() {
+        clearUserAccounts();
+        clearAccountTypes();
+        logoutUser();
+    }
+
     console.log("Did authorize", didAuthorize);
     return (
         <Menu css={styles.navbar} fixed="top">
@@ -36,7 +46,7 @@ const Navbar: FC<IProps> = ({ username, didAuthorize, logoutUser }) => {
                 <Menu.Menu position="right">
                     <Menu.Item>
                         <Popup trigger={<Label>{username}</Label>} hoverable position="left center">
-                            <Button onClick={() => logoutUser()}>Logout</Button>
+                            <Button onClick={() => initiateLogout()}>Logout</Button>
                         </Popup>
                     </Menu.Item>
                 </Menu.Menu>
@@ -64,4 +74,4 @@ const mapStateToProps = (state: any) => {
     };
 };
 
-export default connect(mapStateToProps, { logoutUser })(Navbar);
+export default connect(mapStateToProps, { logoutUser, clearUserAccounts, clearAccountTypes })(Navbar);

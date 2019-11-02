@@ -19,7 +19,7 @@ const initialState = {
     registerError: "",
     loginError: "",
     isFetching: false,
-    didAuthorize: user ? true: false,
+    didAuthorize: user ? true : false,
     authToken: user ? user.token : "",
 };
 

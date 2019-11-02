@@ -7,39 +7,56 @@ import { getAccountTypes } from "../Redux/accountTypesActions";
 import { getUserAccounts } from "../Redux/userAccountsActions";
 import AddAccount from "../components/AddAccount";
 import AccountCard from "../components/AccountCard";
+import ExternalAccountCard from "../components/ExternalAccountCard";
 
 interface IProps extends RouteComponentProps<any> {
     accounts: Account[];
+    accountTypes: AccountType[];
     didFetchAccounts: boolean;
     fetchingAccounts: boolean;
     getAccountsError: string;
     getAccountTypes: () => Promise<void>;
     getUserAccounts: () => Promise<void>;
+    didAuthorize: boolean;
 }
 
 const Home: FC<IProps> = ({
     accounts,
+    accountTypes,
     didFetchAccounts,
     fetchingAccounts,
     getAccountsError,
     getAccountTypes,
-    getUserAccounts
+    getUserAccounts,
+    didAuthorize,
 }) => {
     useEffect(() => {
         getAccountTypes();
         getUserAccounts();
-    }, []);
+    }, [didAuthorize]);
 
-    const accountCards = accounts != [] && accounts != null ? accounts.map(account => (
-        <AccountCard account={account} />
-    )) : [];
+    const accountCards =
+        accounts != undefined &&
+        accounts.length > 0 &&
+        accountTypes != undefined &&
+        accountTypes.length > 0
+            ? accounts.map(account => {
+                  const acctType = accountTypes.find(
+                      type => type.typeId === account.accountId
+                  );
+                  return (
+                      <ExternalAccountCard
+                          account={account}
+                          accountType={acctType}
+                          key={account.accountId}
+                      />
+                  );
+              })
+            : [];
 
     return (
         <div css={styles.button}>
-            <AddAccount />
-            <div>
-                {accountCards}
-            </div>
+            <div>{accountCards}</div>
         </div>
     );
 };
@@ -54,7 +71,7 @@ const styles = {
         display: flex;
         justify-content: center;
         flex-direction: row;
-    `
+    `,
 };
 
 const mapStateProps = (state: any) => {
@@ -64,11 +81,15 @@ const mapStateProps = (state: any) => {
         fetchingAccounts,
         getAccountsError,
     } = state.userAccounts;
+    const { accountTypes } = state.accountTypes;
+    const { didAuthorize } = state.userAuth;
     return {
         accounts,
+        accountTypes,
         didFetchAccounts,
         fetchingAccounts,
         getAccountsError,
+        didAuthorize,
     };
 };
 

@@ -2,6 +2,7 @@ import {
     ACCOUNT_TYPES_RECEIVED,
     ACCOUNT_TYPES_FETCHING,
     ACCOUNT_TYPES_ERROR,
+    ACCOUNT_TYPES_CLEAR
 } from "../accountTypesActions";
 
 const initialState = {
@@ -30,6 +31,10 @@ export function accountTypes(state = initialState, action: IAccountTypeAction) {
                 ...state,
                 isFetching: false,
                 error
+            };
+        case ACCOUNT_TYPES_CLEAR:
+            return {
+                initialState
             };
         default:
             return state;

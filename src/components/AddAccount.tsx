@@ -83,19 +83,24 @@ const AddAccount: FC<IProps> = ({ accountTypes, addNewAccount }) => {
                     onChange={e => setConfirmPass(e.target.value)}
                 />
 
-                <Button color="green">Authenticate Now!</Button>
+                <Button color="green">Add Account</Button>
             </Form>
         </Segment>
     );
 };
 
+
+// TODO: figure out spacing on rows
 const styles = {
     formLayout: css`
         display: flex;
         flex-direction: column;
 
-        
+        Input: { 
+            padding: 5px;
+        }
     `,
+    
 };
 
 const mapStateToProps = (state: any) => {

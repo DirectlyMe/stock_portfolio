@@ -66,7 +66,7 @@ const ExternalAccountCard: FC<IProps> = ({
     }
 
     return (
-            <Segment css={styles.ExternalAccount}>
+            <div css={styles.ExternalAccount}>
                 <h3 css={styles.AccountName}>{accountType !== undefined ? accountType.name : null }</h3>
                 <Image
                     src="https://media.glassdoor.com/sqll/1167765/robinhood-squarelogo-1530549970728.png"
@@ -75,21 +75,27 @@ const ExternalAccountCard: FC<IProps> = ({
                     />
                 { requiresMfa ? (
                     <Segment basic textAlign="center">
-                        <Header size="small">Requires MFA Authentication</Header>
+                        <Header size="small" inverted>Requires MFA Authentication</Header>
                         <Input type="text" button value={mfaCode} placeholder="152658" onChange={(e) => setMfaCode(e.target.value)}>
                             <input />
                             <Button icon="arrow right" onClick={() => submitMfa(mfaCode)} />
                         </Input>
                     </Segment>
                 ) : null }
-            </Segment>
+            </div>
     );
 };
 
 const styles = {
     ExternalAccount: css`
+        width: 33vw;
+        background-color: #1b1b1d;
+        box-shadow: 0px 4px 10px 1px rgba(0, 0, 0, .5);
+        border-radius: 5px;
+        border: 1px solid #0e0d0d;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
     `,
     AccountName: css`

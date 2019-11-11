@@ -8,6 +8,7 @@ import { getUserAccounts } from "../Redux/userAccountsActions";
 import AddAccount from "../components/AddAccount";
 import AccountCard from "../components/AccountCard";
 import ExternalAccountCard from "../components/ExternalAccountCard";
+import "./home_styles.scss";
 
 interface IProps extends RouteComponentProps<any> {
     accounts: Account[];
@@ -55,17 +56,17 @@ const Home: FC<IProps> = ({
             : [];
 
     return (
-        <div css={styles.button}>
-            <div>{accountCards}</div>
+        <div className="whole_page">
+            <div css={styles.accountsContainer}>{accountCards}</div>
+            <AddAccount />
         </div>
     );
 };
 
 const styles = {
-    button: css`
+    accountsContainer: css`
+        margin: 5vw;
         display: flex;
-        justify-content: center;
-        margin-top: 5vh;
     `,
     accountCards: css`
         display: flex;

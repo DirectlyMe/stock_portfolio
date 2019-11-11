@@ -2,7 +2,7 @@
 import React, { useState, FC, useEffect } from "react";
 import { css, jsx } from "@emotion/core";
 import { connect } from "react-redux";
-import { Segment, Image } from "semantic-ui-react";
+import { Segment, Image, Header } from "semantic-ui-react";
 
 interface IProps {
     account: {
@@ -43,7 +43,7 @@ const AccountCard: FC<IProps> = ({
     });
 
     return (
-        <Segment>
+        <Segment inverted>
             <Image
                 src="https://media.glassdoor.com/sqll/1167765/robinhood-squarelogo-1530549970728.png"
                 size="small"

@@ -9,7 +9,6 @@ import {
     USER_CLEAR_ACCOUNTS,
     UPDATE_ACCOUNT_AUTH,
 } from "../userAccountsActions";
-import update from "immutability-helper";
 
 interface InitialState {
     accounts: Account[];
@@ -86,7 +85,7 @@ export function userAccounts(state = initialState, action: IAccountAction) {
             return state;
         case USER_CLEAR_ACCOUNTS:
             return {
-                initialState,
+                ...initialState,
             };
         case UPDATE_ACCOUNT_AUTH:
             const { accountId, accountAuth } = action.payload;

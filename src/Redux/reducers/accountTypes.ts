@@ -34,7 +34,7 @@ export function accountTypes(state = initialState, action: IAccountTypeAction) {
             };
         case ACCOUNT_TYPES_CLEAR:
             return {
-                initialState
+                ...initialState
             };
         default:
             return state;

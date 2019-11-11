@@ -25,7 +25,7 @@ const Navbar: FC<IProps> = ({ username, didAuthorize, logoutUser, clearUserAccou
 
     console.log("Did authorize", didAuthorize);
     return (
-        <Menu css={styles.navbar} fixed="top">
+        <Menu css={styles.navbar} fixed="top" inverted floated>
             <Menu.Item>
                 <Icon name="bars" />
             </Menu.Item>

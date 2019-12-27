@@ -6,9 +6,9 @@ import { RouteComponentProps } from "react-router";
 import { getAccountTypes } from "../Redux/accountTypesActions";
 import { getUserAccounts } from "../Redux/userAccountsActions";
 import AddAccount from "../components/AddAccount";
-import AccountCard from "../components/AccountCard";
 import ExternalAccountCard from "../components/ExternalAccountCard";
-import "./home_styles.scss";
+import StockCard from "../components/StockCard";
+import AddModal from "../components/AddModal";
 
 interface IProps extends RouteComponentProps<any> {
     accounts: Account[];
@@ -33,7 +33,11 @@ const Home: FC<IProps> = ({
 }) => {
     useEffect(() => {
         getAccountTypes();
-        getUserAccounts();
+
+        const storedAccounts = localStorage.getItem("userAccounts");
+        if (!storedAccounts) {
+            getUserAccounts();
+        }
     }, [didAuthorize]);
 
     const accountCards =
@@ -56,16 +60,50 @@ const Home: FC<IProps> = ({
             : [];
 
     return (
-        <div className="whole_page">
-            <div css={styles.accountsContainer}>{accountCards}</div>
-            <AddAccount />
+        <div>
+            <div css={styles.WholePage}>
+                <div css={styles.stocksContainer}>
+                    <StockCard />
+                    <StockCard />
+                </div>
+                <div css={styles.accountsContainer}>{accountCards}</div>
+            </div>
+            <AddModal />
         </div>
     );
 };
 
 const styles = {
+    WholePage: css`
+        padding-top: 5vh;
+        margin-left: 5vw;
+        margin-right: 5vw;
+    
+        &:before {
+            content: "";
+            position: fixed;
+            right: 0;
+            top:0;
+            z-index: -1;
+            overflow: hidden;
+            
+            display: block;
+            background-color: #1B1B1D;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
+    `,
+    stocksContainer: css`
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        margin-bottom: 2vh;
+    `,
     accountsContainer: css`
-        margin: 5vw;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        margin-bottom: 2vh;
         display: flex;
     `,
     accountCards: css`

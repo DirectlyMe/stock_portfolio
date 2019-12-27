@@ -21,3 +21,7 @@ interface AccountType {
     name: string;
     connectionUrl: string;
 }
+
+interface StoredAccounts {
+    accounts: Account[]
+}

@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import Layout from "./components/Layout";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./components/PrivateRoute";
+import AccountDetail from "./pages/AccountDetail";
 
 const App: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
                 <PrivateRoute path="/" exact component={Home} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
+                <Route path="/accountview/:id" component={AccountDetail} />
                 <ToastContainer />
             </Switch>
         </Layout>

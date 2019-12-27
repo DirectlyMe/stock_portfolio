@@ -20,8 +20,16 @@ interface InitialState {
     addAccountError: string;
 }
 
+let storedAccounts: StoredAccounts | null = null;
+const retrievedAccounts = localStorage.getItem("userAccounts");
+if (retrievedAccounts) {
+    storedAccounts = JSON.parse(retrievedAccounts);
+} else {
+    localStorage.setItem("userAccounts", JSON.stringify({ accounts: [] }));
+}
+
 const initialState: InitialState = {
-    accounts: [],
+    accounts: storedAccounts ? storedAccounts.accounts : [],
     fetchingAccounts: false,
     didFetchAccounts: false,
     getAccountsError: "",
@@ -34,6 +42,13 @@ export function userAccounts(state = initialState, action: IAccountAction) {
     switch (action.type) {
         case RECEIVE_USER_ACCOUNTS:
             const { accounts } = action.payload;
+
+            const newAccountsPayload = {
+                accounts
+            };
+    
+            localStorage.setItem("userAccounts", JSON.stringify(newAccountsPayload));
+
             return {
                 ...state,
                 accounts,
@@ -93,13 +108,27 @@ export function userAccounts(state = initialState, action: IAccountAction) {
                 account => account.accountId == accountId
             );
 
+            let storedAccounts: StoredAccounts | null = null;
             let index = 0;
             if (accountMatch != undefined) {
                 index = state.accounts.indexOf(accountMatch);
-                console.log(index);
-                console.log(accountMatch);
-                console.log(accountAuth);
-            } else return state;
+
+                let userAccounts = localStorage.getItem("userAccounts");
+                if (userAccounts) {
+                    storedAccounts = JSON.parse(userAccounts);
+                    if (storedAccounts) {
+                        storedAccounts = {
+                            accounts: state.accounts.map((account, i) =>
+                                i === index ? { ...account, accountAuth } : account
+                            )
+                        };
+
+                        localStorage.setItem("userAccounts", JSON.stringify(storedAccounts));
+                    }
+                }
+
+            } else
+                return state;
 
             return {
                 ...state,

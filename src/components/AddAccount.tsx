@@ -12,7 +12,6 @@ import {
     Header,
 } from "semantic-ui-react";
 import { addNewAccount } from "../Redux/userAccountsActions";
-import { whileStatement } from "@babel/types";
 
 interface IProps {
     accountTypes: [
@@ -127,6 +126,7 @@ const styles = {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        height: 100%;
     `,
     formLayout: css`
         display: flex;

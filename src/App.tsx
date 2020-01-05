@@ -17,7 +17,7 @@ const App: React.FC = () => {
                 <PrivateRoute path="/" exact component={Home} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
-                <Route path="/accountview/:id" component={AccountDetail} />
+                <PrivateRoute path="/stockdetail/:id" component={AccountDetail} />
                 <ToastContainer />
             </Switch>
         </Layout>

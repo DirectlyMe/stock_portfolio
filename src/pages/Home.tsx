@@ -64,7 +64,6 @@ const Home: FC<IProps> = ({
             <div css={styles.WholePage}>
                 <div css={styles.stocksContainer}>
                     <StockCard />
-                    <StockCard />
                 </div>
                 <div css={styles.accountsContainer}>{accountCards}</div>
             </div>

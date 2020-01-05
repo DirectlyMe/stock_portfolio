@@ -27,7 +27,9 @@ const Navbar: FC<IProps> = ({ username, didAuthorize, logoutUser, clearUserAccou
     return (
         <Menu css={styles.navbar} fixed="top" inverted floated>
             <Menu.Item>
-                <Icon name="bars" />
+                <NavLink to="/">
+                    <Icon name="bars" />
+                </NavLink>
             </Menu.Item>
             {!didAuthorize ? (
                 <Menu.Menu position="right">

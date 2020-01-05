@@ -95,7 +95,7 @@ const ExternalAccountCard: FC<IProps> = ({
                     </Header>
                     <Input
                         type="text"
-                        button
+                        button="true"
                         value={mfaCode}
                         placeholder="152658"
                         onChange={e => setMfaCode(e.target.value)}
